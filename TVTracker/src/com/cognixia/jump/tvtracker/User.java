@@ -7,10 +7,10 @@ public class User {
 	private int id;
 	private String name;
 	private String password;
-	private List<String> list;
+	private List<Show> list;
 	
 	
-	public User(int id, String name, String password, List<String> list) {
+	public User(int id, String name, String password, List<Show> list) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -36,10 +36,10 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public List<String> getList() {
+	public List<Show> getList() {
 		return list;
 	}
-	public void setList(List<String> list) {
+	public void setList(List<Show> list) {
 		this.list = list;
 	}
 
