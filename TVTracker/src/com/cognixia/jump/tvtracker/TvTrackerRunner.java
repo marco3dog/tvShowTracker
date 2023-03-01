@@ -10,6 +10,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import com.cognixia.jump.exceptions.PasswordNotFoundException;
+import com.cognixia.jump.exceptions.UserNotFoundException;
+import com.cognixia.jump.exceptions.UsernameNotFoundException;
+
 public class TvTrackerRunner {
 
 	public static void main(String[] args) {
@@ -78,13 +82,17 @@ public class TvTrackerRunner {
 				System.out.println("Enter your username: ");
 				usernameEntered = scan.nextLine();
 				if(!isUser(usernameEntered, conn)) {
-					throw new Exception(); //make a custom exception for when entry is not found in the db
+					throw new UsernameNotFoundException(""); //make a custom exception for when entry is not found in the db
 				}
 				valid = true;
 				System.out.println("Welcome, " + usernameEntered + ".");
 			}
-			catch(Exception e) {
+			catch(UsernameNotFoundException e) {
 				System.out.println("Entry not found in the database.");
+				valid = false;
+			}
+			catch(Exception e) {
+				e.printStackTrace();
 				valid = false;
 			}
 		}
@@ -94,13 +102,17 @@ public class TvTrackerRunner {
 				System.out.println("Enter your password: ");
 				passwordEntered = scan.nextLine();
 				if(!isCorrectPassword(usernameEntered, passwordEntered, conn)) {
-					throw new Exception();
+					throw new PasswordNotFoundException("");
 				}
 				valid = true;
 				System.out.println("Loading your shows...");
 			}
-			catch(Exception e) {
+			catch(PasswordNotFoundException e) {
 				System.out.println("Incorrect password for " + usernameEntered + ". Try Again.");
+				valid = false;
+			}
+			catch(Exception e) {
+				e.printStackTrace();
 				valid = false;
 			}
 		}
