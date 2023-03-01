@@ -8,11 +8,10 @@ public class Show {
 	
 	public Show() {}
 	
-	public Show(int showId, String name, int episodes, int watchedEpisodes) {
+	public Show(int showId, String name, int episodes) {
 		this.showId = showId;
 		this.name = name;
 		this.episodes = episodes;
-		this.watchedEpisodes = watchedEpisodes;
 	}
 
 	public int getShowId() {
@@ -38,13 +37,6 @@ public class Show {
 		this.episodes = episodes;
 	}
 
-	public int getWatchedEpisodes() {
-		return watchedEpisodes;
-	}
-
-	public void setWatchedEpisodes(int watchedEpisodes) {
-		this.watchedEpisodes = watchedEpisodes;
-	}
 
 	@Override
 	public String toString() {

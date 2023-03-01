@@ -1,4 +1,4 @@
-package dao;
+package com.cognixia.jump.dao;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
