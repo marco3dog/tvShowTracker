@@ -22,18 +22,20 @@ public class TvTrackerRunner {
 		}
 		Scanner scan = new Scanner(System.in);
 		User currentUser = login(scan, conn);
-		if(currentUser.getList().size() > 0) {
-			System.out.println("------------");
-			System.out.println("Your Shows:");
-			for(int i = 0; i < currentUser.getList().size(); i++) {
-				System.out.println(currentUser.getList().get(i).getName() + ": " + currentUser.getList().get(i).getEpisodesWatched() + "/" + currentUser.getList().get(i).getEpisodes() + " episodes watched");
-			}
-		}
-		else {
-			System.out.println("You have no tracked shows.");
-		}
+//		if(currentUser.getList().size() > 0) {
+//			System.out.println("------------");
+//			System.out.println("Your Shows:");
+//			for(int i = 0; i < currentUser.getList().size(); i++) {
+//				System.out.println(currentUser.getList().get(i).getName() + ": " + currentUser.getList().get(i).getEpisodesWatched() + "/" + currentUser.getList().get(i).getEpisodes() + " episodes watched");
+//			}
+//		}
+//		else {
+//			System.out.println("You have no tracked shows.");
+//		}
 		// Test if method works
 //		currentUser.addShowToList(2, 10);
+		
+		currentUser.updateShowInList(1, 8);
 	}
 	
 	//Functions
