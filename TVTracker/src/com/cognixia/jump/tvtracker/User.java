@@ -2,9 +2,8 @@ package com.cognixia.jump.tvtracker;
 
 import java.util.List;
 
-package com.cognixia.jump.tvtracker;
-
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -78,6 +77,20 @@ public class User {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+	}
+	
+	public void addShowToList(int showId, int episodesWatched) {
+		
+		try (Statement stmt = conn.createStatement()) {
+			int updated = stmt.executeUpdate("INSERT INTO user_shows values(" + getId() + ", " + showId + ", " + episodesWatched + ")");
+			
+			if (updated != 0)
+				System.out.println("Show successfully added to list.");
+			
+		} catch (SQLException e) {
+			System.out.println("Show cannot be added to list. Try again.");
+		}
+		
 	}
 	@Override
 	public String toString() {

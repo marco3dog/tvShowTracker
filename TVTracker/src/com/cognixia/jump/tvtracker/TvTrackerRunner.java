@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class TvTrackerRunner {
@@ -19,8 +21,19 @@ public class TvTrackerRunner {
 			System.out.println("Connection failed.");
 		}
 		Scanner scan = new Scanner(System.in);
-		login(scan, conn);
-	
+		User currentUser = login(scan, conn);
+		if(currentUser.getList().size() > 0) {
+			System.out.println("------------");
+			System.out.println("Your Shows:");
+			for(int i = 0; i < currentUser.getList().size(); i++) {
+				System.out.println(currentUser.getList().get(i).getName() + ": " + currentUser.getList().get(i).getEpisodesWatched() + "/" + currentUser.getList().get(i).getEpisodes() + " episodes watched");
+			}
+		}
+		else {
+			System.out.println("You have no tracked shows.");
+		}
+		// Test if method works
+//		currentUser.addShowToList(2, 10);
 	}
 	
 	//Functions
@@ -56,9 +69,10 @@ public class TvTrackerRunner {
 		return false;
 	}
 	
-	private static void login(Scanner scan, Connection conn) {
+	private static User login(Scanner scan, Connection conn) {
 		System.out.println("Welcome to your TV Show Tracker");	
 		boolean valid = false;
+		int id = 0;
 		String usernameEntered = "";
 		String passwordEntered = "";
 		do {
@@ -93,6 +107,18 @@ public class TvTrackerRunner {
 			}
 		}
 		while(!valid);
+		try (Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery("select userid from user where username = '" + usernameEntered  +"'");)
+		{
+			while (rs.next()) {
+				id = rs.getInt("userid");
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return new User(id, usernameEntered, passwordEntered);
+		
 	}
 
 }
