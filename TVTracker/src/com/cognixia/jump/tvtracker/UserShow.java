@@ -8,6 +8,15 @@ public class UserShow extends Show {
 		super(showId, name, episodes);
 		this.episodesWatched = episodesWatched;
 	}
+
+	public int getEpisodesWatched() {
+		return episodesWatched;
+	}
+
+	public void setEpisodesWatched(int episodesWatched) {
+		this.episodesWatched = episodesWatched;
+	}
+	
 	
 	
 }
