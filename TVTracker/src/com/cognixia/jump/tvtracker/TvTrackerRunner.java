@@ -62,6 +62,7 @@ public class TvTrackerRunner {
 			}
 			catch(Exception e) {
 				System.out.println("Not a valid option");
+				option = 0;
 				continue;
 			}
 			switch(option) {
@@ -94,7 +95,7 @@ public class TvTrackerRunner {
 					}
 				}
 				while(!goodInput);
-				currentUser.addShowToList(showId, episodesWatched);
+				boolean success = currentUser.addShowToList(showId, episodesWatched);
 				ArrayList<UserShow> temp = (ArrayList<UserShow>) currentUser.getList();
 				ArrayList<Show> listOfShows = (ArrayList<Show>) dao.getAllShows();
 				Show addedShow = null;
@@ -105,7 +106,7 @@ public class TvTrackerRunner {
 					}
 				}
 				
-				if (addedShow != null) {
+				if (addedShow != null && success) {
 					temp.add(new UserShow(addedShow.getShowId(), addedShow.getName(), addedShow.getEpisodes(),
 							episodesWatched));
 					currentUser.setList(temp);
@@ -158,7 +159,7 @@ public class TvTrackerRunner {
 				}
 				break;
 			}
-			case 4:{return;}
+			case 4:{System.out.println("Goodbye!"); return;}
 			default: {continue;}
 			}
 		}
