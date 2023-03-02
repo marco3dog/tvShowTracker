@@ -40,9 +40,11 @@ public class TvTrackerRunner {
 		
 		
 //		 Test if methods work
-		currentUser.addShowToList(7, 10);
+//		currentUser.addShowToList(7, 10);
 //		
-		currentUser.updateShowInList(1, -10);
+//		currentUser.updateShowInList(1, -10);
+		
+//		currentUser.removeShowFromList(1);
 	}
 	
 	//Functions

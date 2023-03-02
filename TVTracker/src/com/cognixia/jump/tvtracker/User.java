@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import java.sql.Connection;
@@ -126,6 +127,30 @@ public class User {
 			
 		} catch (SQLException e) {
 			System.out.println("List cannot be updated. Try again.");
+		}
+	}
+	
+	public void removeShowFromList(int showId) {
+		// Check if the show the user wants to remove is actually in their list
+		HashSet<Integer> showIds = new HashSet<Integer>();
+		for (UserShow show : list) {
+			showIds.add(show.getShowId());
+		}
+		// If the show is not in their list, notify the user and stop the method
+		if (!showIds.contains(showId)) {
+			System.out.println("Show does not exist in your list. Please check your input and try again.");
+			return;
+		}
+		
+		// Remove the show from the user's list
+		try (Statement stmt = conn.createStatement();) {
+			int updated = stmt.executeUpdate("DELETE FROM user_shows WHERE showid = " + showId);
+			
+			if (updated != 0)
+				System.out.println("List entry successfully removed.");
+			
+		} catch (SQLException e) {
+			System.out.println("List entry could not be removed. Try again.");
 		}
 	}
 
