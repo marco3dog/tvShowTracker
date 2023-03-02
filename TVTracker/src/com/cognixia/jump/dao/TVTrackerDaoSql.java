@@ -142,6 +142,8 @@ public class TVTrackerDaoSql implements TVTrackerDao {
 				String name = rs.getString("s.name");
 				int completedCount = rs.getInt("completedShows");
 				
+				rs.close();
+				
 				showsCompleted.put(name, completedCount);
 			}
 			

@@ -19,8 +19,6 @@ public class DaoRunner {
 				System.out.println(set.getValue() + " user(s) have completed the show " + set.getKey());
 			}
 			
-			
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
