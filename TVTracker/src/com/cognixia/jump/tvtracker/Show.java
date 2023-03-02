@@ -4,7 +4,7 @@ public class Show {
 	private int showId;
 	private String name;
 	private int episodes;
-	private int watchedEpisodes;
+	
 	
 	public Show() {}
 	
@@ -40,8 +40,7 @@ public class Show {
 
 	@Override
 	public String toString() {
-		return "Show [showId=" + showId + ", name=" + name + ", episodes=" + episodes + ", watchedEpisodes="
-				+ watchedEpisodes + "]";
+		return "[showId=" + showId + ", name=" + name + ", episodes=" + episodes + "]";
 	}
 	
 }
