@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import com.cognixia.jump.dao.TVTrackerDaoSql;
 import com.cognixia.jump.exceptions.PasswordNotFoundException;
 import com.cognixia.jump.exceptions.UserNotFoundException;
 import com.cognixia.jump.exceptions.UsernameNotFoundException;
@@ -37,12 +38,71 @@ public class TvTrackerRunner {
 			System.out.println("You have no tracked shows.");
 		}
 		System.out.println("------------");
-		
+		int option = 0;
+		TVTrackerDaoSql dao = new TVTrackerDaoSql();
+		try {
+			dao.setConnection();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} 
+		while(true) {
+			System.out.println("Select an option by entering 1, 2, 3, or 4.");
+			System.out.println("------------");
+			System.out.println("1.) Add a show.");
+			System.out.println("2.) Update a show's progress.");
+			System.out.println("3.) View all your shows.");
+			System.out.println("4.) Exit.");
+			System.out.println("------------");
+			try {
+				option = scan.nextInt();
+			}
+			catch(Exception e) {
+				System.out.println("Not a valid option");
+				continue;
+			}
+			switch(option) {
+			case 1: {
+				System.out.println("Enter the showId of the show you want to add.");
+				displayShowsToAdd(dao);
+				boolean goodInput;
+				int showId = 0;
+				int episodesWatched = 0;
+				do {
+					try {
+						showId = scan.nextInt();
+						goodInput = true;
+					}
+					catch(Exception e) {
+						System.out.println("Not a valid option");
+						goodInput = false;
+					}
+				}
+				while(!goodInput);
+				System.out.println("How many episodes have you seen?");
+				do {
+					try {
+						episodesWatched = scan.nextInt();
+						goodInput = true;
+					}
+					catch(Exception e) {
+						System.out.println("Not a valid option");
+						goodInput = false;
+					}
+				}
+				while(!goodInput);
+				currentUser.addShowToList(showId, episodesWatched);
+				break;
+			}
+			default: {return;}
+			}
+		}
+			
 		
 //		 Test if methods work
-		currentUser.addShowToList(7, 10);
+		//currentUser.addShowToList(7, 10);
 //		
-		currentUser.updateShowInList(1, -10);
+		//currentUser.updateShowInList(1, -10);
 	}
 	
 	//Functions
@@ -136,6 +196,13 @@ public class TvTrackerRunner {
 		}
 		return new User(id, usernameEntered, passwordEntered);
 		
+	}
+	
+	public static void displayShowsToAdd(TVTrackerDaoSql dao) {
+		ArrayList<Show> arr = (ArrayList<Show>) dao.getAllShows();
+		for(int i = 0; i < arr.size(); i++) {
+			System.out.println(arr.get(i));
+		}
 	}
 
 }
