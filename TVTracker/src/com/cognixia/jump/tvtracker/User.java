@@ -41,6 +41,18 @@ public class User {
 		createList();
 	}
 	
+	// Constructor for AdminUser
+	public User() {
+		super();
+		
+		try{
+			this.conn = BetterConnectionManager.getConnection();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public int getId() {
 		return id;
 	}

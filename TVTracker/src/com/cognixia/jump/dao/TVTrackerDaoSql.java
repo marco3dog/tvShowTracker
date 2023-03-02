@@ -74,60 +74,63 @@ public class TVTrackerDaoSql implements TVTrackerDao {
 	}
 
 	@Override
-	public boolean createShow(String showName, int episodes) {
+	public void createShow(String showName, int episodes) {
 		
-		try (PreparedStatement pstmt = conn.prepareStatement("INSERT INTO show values(null, name = ?, episodes = ?)");) {
+		try (Statement stmt = conn.createStatement();) {
+			int updated = stmt.executeUpdate("INSERT INTO shows values(null, " + "'" + showName + "'" + ", " + episodes + ")");
 			
-			pstmt.setString(1, showName);
-			pstmt.setInt(2, episodes);
+			if (updated != 0)
+				System.out.println("Show successfully created.");
+			else
+				System.out.println("Show could not be created.");
+		} catch (SQLException e) {
+			System.out.println("Show could not be created.");
+			e.printStackTrace();
+		}
+		
+//		try (PreparedStatement pstmt = conn.prepareStatement("INSERT INTO shows values(null, name = ?, episodes = ?)");) {
+//			pstmt.setString(1, showName);
+//			pstmt.setInt(2, episodes);
+//			
+//			int updated = pstmt.executeUpdate();
+//			if (updated > 0) {
+//				System.out.println("Show successfully created");
+//			}
+//		} catch (SQLException e) {
+//			System.out.println("Show could not be created.");
+//		}
+	}
+	
+	@Override
+	public void deleteShow(int id) {
+		
+		try (Statement stmt = conn.createStatement();) {
+			int updated = stmt.executeUpdate("DELETE FROM shows WHERE showid = " + id);
 			
-			int updated = pstmt.executeUpdate();
-			
-			if (updated == 1)
-				return true;
+			if (updated != 0)
+				System.out.println("Show has been successfully deleted.");
+			else 
+				System.out.println("Show could not be deleted.");
 			
 		} catch (SQLException e) {
-			return false;
+			System.out.println("Show could not be deleted.");
 		}
-		return false;
 	}
 
 	@Override
-	public boolean deleteShow(int id) {
+	public void updateShow(String showName, int episodes) {
 		
-		try (PreparedStatement pstmt = conn.prepareStatement("DELETE FROM show WHERE showid = ?");) {
+		try (Statement stmt = conn.createStatement();) {
+			int updated = stmt.executeUpdate("UPDATE shows SET episodes = " + episodes + " WHERE name = " + "'" + showName + "'");
 			
-			pstmt.setInt(1, id);
-			
-			int updated = pstmt.executeUpdate();
-			
-			if (updated == 1)
-				return true;
+			if (updated != 0)
+				System.out.println("Show successfully updated.");
+			else
+				System.out.println("Show could not be updated.");
 			
 		} catch (SQLException e) {
-			return false;
+			System.out.println("Show could not be updated.");
 		}
-		return false;
-	}
-
-	@Override
-	public boolean updateShow(String showName, int episodes) {
-		
-		
-		try (PreparedStatement pstmt = conn.prepareStatement("UPDATE show SET name = ?, episodes = ?");) {
-			
-			pstmt.setString(1, showName);
-			pstmt.setInt(2, episodes);
-			
-			int updated = pstmt.executeUpdate();
-			
-			if (updated == 1)
-				return true;
-			
-		} catch (SQLException e) {
-			return false;
-		}
-		return false;
 	}
 	
 	

@@ -45,11 +45,20 @@ public class TvTrackerRunner {
 //		currentUser.updateShowInList(1, -10);
 		
 //		currentUser.removeShowFromList(1);
+		
+		// Test adminUser methods
+//		((AdminUser) currentUser).createShow("Breaking Bad", 100);
+//		((AdminUser) currentUser).updateShow("Breaking Bad", 79);
+//		((AdminUser) currentUser).deleteShow(10);
 	}
 	
 	//Functions
 	//will update these with db connection
 	private static boolean isUser(String username, Connection conn) {
+		// Check for admin first
+//		if (username.equals("admin")) {
+//			return true;
+//		}
 		try(PreparedStatement ps = conn.prepareStatement("select * from user where username = ?")){
 			ps.setString(1, username);
 			ResultSet rs = ps.executeQuery();
@@ -66,6 +75,10 @@ public class TvTrackerRunner {
 	}
 	
 	private static boolean isCorrectPassword(String username, String password, Connection conn) {
+		// Check for admin first
+//		if (username.equals("admin") && password.equals("admin")) {
+//			return true;
+//		}
 		try(PreparedStatement ps = conn.prepareStatement("select * from user where username = ? and password = ?")){
 			ps.setString(1, username);
 			ps.setString(2, password);
@@ -136,6 +149,10 @@ public class TvTrackerRunner {
 		catch(Exception e){
 			e.printStackTrace();
 		}
+		// Create adminUser object if admin is logging in
+//		if (usernameEntered.equals("admin") && passwordEntered.equals("admin")) {
+//			return new AdminUser();
+//		}
 		return new User(id, usernameEntered, passwordEntered);
 		
 	}

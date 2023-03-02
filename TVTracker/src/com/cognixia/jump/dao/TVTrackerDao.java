@@ -16,10 +16,10 @@ public interface TVTrackerDao {
 	
 	public Optional<Show> getShowById(int id);
 	
-	public boolean createShow(String showName, int episodes);
+	public void createShow(String showName, int episodes);
 	
-	public boolean deleteShow(int id);
+	public void deleteShow(int id);
 	
-	public boolean updateShow(String showName, int episodes);
+	public void updateShow(String showName, int episodes);
 	
 }
