@@ -36,6 +36,10 @@ public class TvTrackerRunner {
 		else {
 			System.out.println("You have no tracked shows.");
 		}
+		// Test if methods work
+//		currentUser.addShowToList(2, 10);
+		
+//		currentUser.updateShowInList(1, -4);
 	}
 	
 	//Functions

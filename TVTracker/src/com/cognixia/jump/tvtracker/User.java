@@ -7,6 +7,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
 public class User {
 	
 	private int id;
@@ -75,6 +83,52 @@ public class User {
 				e.printStackTrace();
 			}
 	}
+	
+	public void addShowToList(int showId, int episodesWatched) {
+		
+		try (Statement stmt = conn.createStatement()) {
+			int updated = stmt.executeUpdate("INSERT INTO user_shows values(" + getId() + ", " + showId + ", " + episodesWatched + ")");
+			
+			if (updated != 0)
+				System.out.println("Show successfully added to list.");
+			
+		} catch (SQLException e) {
+			System.out.println("Show cannot be added to list. Try again.");
+		}
+	}
+	
+	public void updateShowInList(int showId, int episodesWatched) {
+		
+		// Get total amount of episodes the show has
+		int totalEpisodes = 0;
+		
+		try (Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT episodes FROM shows WHERE showid = " + showId);
+			) {
+			while (rs.next()) {
+				totalEpisodes = rs.getInt("episodes");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		// Checks if episodesWatched is greater than the amount of episodes the show has or less than 0
+		if (episodesWatched > totalEpisodes || episodesWatched < 0) {
+			System.out.println("Invalid amount of episodes watched. Please check your input and try again.");
+			return;
+		}
+		// If the value of episodesWatched is valid, then continue on with the method
+		try (Statement stmt = conn.createStatement();) {
+			
+			int updated = stmt.executeUpdate("UPDATE user_shows SET episodes = " + episodesWatched + " WHERE showid = " + showId + " AND userid = " + getId());
+			
+			if (updated != 0)
+				System.out.println("List entry successfully updated.");
+			
+		} catch (SQLException e) {
+			System.out.println("List cannot be updated. Try again.");
+		}
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", password=" + password + ", list=" + list + "]";
