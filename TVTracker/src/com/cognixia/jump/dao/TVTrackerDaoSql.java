@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -128,6 +129,27 @@ public class TVTrackerDaoSql implements TVTrackerDao {
 			return false;
 		}
 		return false;
+	}
+
+	@Override
+	public HashMap<String, Integer> getNumUsersCompletedShow() {
+		HashMap<String, Integer> showsCompleted = new HashMap<>();
+		
+		try (Statement stmt = conn.createStatement();
+			 ResultSet rs = stmt.executeQuery("SELECT s.name, COUNT(*) AS completedShows FROM shows s, user_shows us WHERE us.episodes = s.episodes GROUP BY s.name")) {
+			
+			while (rs.next()) {
+				String name = rs.getString("s.name");
+				int completedCount = rs.getInt("completedShows");
+				
+				showsCompleted.put(name, completedCount);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return showsCompleted;
 	}
 	
 	
