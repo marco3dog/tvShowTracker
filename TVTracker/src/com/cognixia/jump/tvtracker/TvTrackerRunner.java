@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import com.cognixia.jump.dao.TVTrackerDaoSql;
@@ -60,8 +61,14 @@ public class TvTrackerRunner {
 					throw new Exception();
 				}
 			}
+			catch (InputMismatchException e) {
+				System.out.println("Enter a number.");
+				option = 0;
+				scan.next();
+				continue;
+			}
 			catch(Exception e) {
-				System.out.println("Not a valid option");
+				System.out.println("Not a valid option.");
 				option = 0;
 				continue;
 			}
@@ -77,8 +84,13 @@ public class TvTrackerRunner {
 						showId = scan.nextInt();
 						goodInput = true;
 					}
+					catch (InputMismatchException e) {
+						System.out.println("Enter a number.");
+						scan.next();
+						goodInput = false;
+					}
 					catch(Exception e) {
-						System.out.println("Not a valid option");
+						System.out.println("Not a valid option.");
 						goodInput = false;
 					}
 				}
@@ -88,6 +100,11 @@ public class TvTrackerRunner {
 					try {
 						episodesWatched = scan.nextInt();
 						goodInput = true;
+					}
+					catch (InputMismatchException e) {
+						System.out.println("Enter a number.");
+						scan.next();
+						goodInput = false;
 					}
 					catch(Exception e) {
 						System.out.println("Not a valid option");
@@ -129,6 +146,11 @@ public class TvTrackerRunner {
 						}
 						goodInput = true;
 					}
+					catch (InputMismatchException e) {
+						System.out.println("Enter a number.");
+						scan.next();
+						goodInput = false;
+					}
 					catch(Exception e) {
 						System.out.println("Not a valid option");
 						goodInput = false;
@@ -141,6 +163,11 @@ public class TvTrackerRunner {
 					try {
 						numberOfEpisodesEntered = scan.nextInt();
 						goodInput = true;
+					}
+					catch (InputMismatchException e) {
+						System.out.println("Enter a number.");
+						scan.next();
+						goodInput = false;
 					}
 					catch(Exception e) {
 						System.out.println("Not a valid option");
