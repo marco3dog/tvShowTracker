@@ -106,13 +106,11 @@ public class User {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 		// Checks if episodesWatched is greater than the amount of episodes the show has or less than 0
 		if (episodesWatched > totalEpisodes || episodesWatched < 0) {
 			System.out.println("Invalid amount of episodes watched. Please check your input and try again.");
 			return;
 		}
-		
 		// If the value of episodesWatched is valid, then continue on with the method
 		try (Statement stmt = conn.createStatement();) {
 			

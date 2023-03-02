@@ -35,7 +35,7 @@ public class TvTrackerRunner {
 		// Test if method works
 //		currentUser.addShowToList(2, 10);
 		
-		currentUser.updateShowInList(1, 8);
+		currentUser.updateShowInList(1, -4);
 	}
 	
 	//Functions
