@@ -15,7 +15,10 @@ public class DaoRunner {
 			
 			HashMap<String, Integer> usersCompletedShows = tvDao.getNumUsersCompletedShow();
 			
-			System.out.println(usersCompletedShows);
+			for(HashMap.Entry<String, Integer> set : usersCompletedShows.entrySet()) {
+				System.out.println(set.getValue() + " user(s) have completed the show " + set.getKey());
+			}
+			
 			
 			
 		} catch (Exception e) {
