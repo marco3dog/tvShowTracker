@@ -56,13 +56,16 @@ public class TvTrackerRunner {
 			System.out.println("------------");
 			try {
 				option = scan.nextInt();
+				if(option < 1 || option > 4) {
+					throw new Exception();
+				}
 			}
 			catch(Exception e) {
 				System.out.println("Not a valid option");
 				continue;
 			}
 			switch(option) {
-			case 1: {
+			case 1: { //add a show
 				System.out.println("Enter the showId of the show you want to add.");
 				displayShowsToAdd(dao);
 				boolean goodInput;
@@ -92,21 +95,77 @@ public class TvTrackerRunner {
 				}
 				while(!goodInput);
 				currentUser.addShowToList(showId, episodesWatched);
+				ArrayList<UserShow> temp = (ArrayList<UserShow>) currentUser.getList();
+				ArrayList<Show> listOfShows = (ArrayList<Show>) dao.getAllShows();
+				Show addedShow = null;
+				for(int i = 0; i<listOfShows.size();i++) {
+					if(showId == listOfShows.get(i).getShowId()) {
+						addedShow = listOfShows.get(i);
+						break;
+					}
+				}
+				
+				if (addedShow != null) {
+					temp.add(new UserShow(addedShow.getShowId(), addedShow.getName(), addedShow.getEpisodes(),
+							episodesWatched));
+					currentUser.setList(temp);
+				}
 				break;
 			}
-			default: {return;}
+			case 2:{
+				System.out.println("Which show would you like to update?");
+				boolean goodInput;
+				int menuOption = 0;
+				for(int i = 1; i <= currentUser.getList().size(); i++) {
+					System.out.println(i + ".) " + currentUser.getList().get(i-1).getName());
+				}
+				do {
+					try {
+						menuOption = scan.nextInt();
+						if(menuOption < 0 || menuOption > currentUser.getList().size()) {
+							throw new Exception();
+						}
+						goodInput = true;
+					}
+					catch(Exception e) {
+						System.out.println("Not a valid option");
+						goodInput = false;
+					}
+				}
+				while(!goodInput);
+				System.out.println("How many episodes have you seen?");
+				int numberOfEpisodesEntered = 0;
+				do {
+					try {
+						numberOfEpisodesEntered = scan.nextInt();
+						goodInput = true;
+					}
+					catch(Exception e) {
+						System.out.println("Not a valid option");
+						goodInput = false;
+					}
+				}
+				while(!goodInput);
+				currentUser.updateShowInList(currentUser.getList().get(menuOption-1).getShowId(), numberOfEpisodesEntered);
+				currentUser.getList().get(menuOption-1).setEpisodesWatched(numberOfEpisodesEntered);
+				break;
+			}
+			case 3:{
+				System.out.println("------------");
+				System.out.println("Your Shows:");
+				for(int i = 0; i < currentUser.getList().size(); i++) {
+					System.out.println(currentUser.getList().get(i).getName() + ": " + currentUser.getList().get(i).getEpisodesWatched() + "/" + currentUser.getList().get(i).getEpisodes() + " episodes watched");
+				}
+				break;
+			}
+			case 4:{return;}
+			default: {continue;}
 			}
 		}
 			
-		
-//		 Test if methods work
-		//currentUser.addShowToList(7, 10);
-//		
-		//currentUser.updateShowInList(1, -10);
 	}
 	
 	//Functions
-	//will update these with db connection
 	private static boolean isUser(String username, Connection conn) {
 		try(PreparedStatement ps = conn.prepareStatement("select * from user where username = ?")){
 			ps.setString(1, username);
