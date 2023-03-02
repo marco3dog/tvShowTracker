@@ -84,16 +84,34 @@ public class User {
 			}
 	}
 	
-	public void addShowToList(int showId, int episodesWatched) {
+	public boolean addShowToList(int showId, int episodesWatched) {
+		int totalEpisodes = 0;
 		
+		try (Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT episodes FROM shows WHERE showid = " + showId);
+			) {
+			while (rs.next()) {
+				totalEpisodes = rs.getInt("episodes");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		// Checks if episodesWatched is greater than the amount of episodes the show has or less than 0
+		if (episodesWatched > totalEpisodes || episodesWatched < 0) {
+			System.out.println("Invalid amount of episodes watched. Please check your input and try again.");
+			return false;
+		}
 		try (Statement stmt = conn.createStatement()) {
 			int updated = stmt.executeUpdate("INSERT INTO user_shows values(" + getId() + ", " + showId + ", " + episodesWatched + ")");
 			
 			if (updated != 0)
 				System.out.println("Show successfully added to list.");
+				return true;
 			
 		} catch (SQLException e) {
 			System.out.println("Show cannot be added to list. Try again.");
+			return false;
 		}
 	}
 	
