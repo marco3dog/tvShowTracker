@@ -3,6 +3,7 @@ package com.cognixia.jump.dao;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,5 +22,7 @@ public interface TVTrackerDao {
 	public boolean deleteShow(int id);
 	
 	public boolean updateShow(String showName, int episodes);
+	
+	public HashMap<String, Integer> getNumUsersCompletedShow();
 	
 }
