@@ -115,7 +115,7 @@ public class User {
 		}
 	}
 	
-	public void updateShowInList(int showId, int episodesWatched) {
+	public boolean updateShowInList(int showId, int episodesWatched) {
 		
 		// Get total amount of episodes the show has
 		int totalEpisodes = 0;
@@ -128,11 +128,12 @@ public class User {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		}
 		// Checks if episodesWatched is greater than the amount of episodes the show has or less than 0
 		if (episodesWatched > totalEpisodes || episodesWatched < 0) {
 			System.out.println("Invalid amount of episodes watched. Please check your input and try again.");
-			return;
+			return false;
 		}
 		// If the value of episodesWatched is valid, then continue on with the method
 		try (Statement stmt = conn.createStatement();) {
@@ -141,9 +142,11 @@ public class User {
 			
 			if (updated != 0)
 				System.out.println("List entry successfully updated.");
+				return true;
 			
 		} catch (SQLException e) {
 			System.out.println("List cannot be updated. Try again.");
+			return false;
 		}
 	}
 
