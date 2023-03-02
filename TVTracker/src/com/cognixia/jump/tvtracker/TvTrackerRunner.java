@@ -117,6 +117,7 @@ public class TvTrackerRunner {
 				System.out.println("Which show would you like to update?");
 				boolean goodInput;
 				int menuOption = 0;
+				boolean success;
 				for(int i = 1; i <= currentUser.getList().size(); i++) {
 					System.out.println(i + ".) " + currentUser.getList().get(i-1).getName());
 				}
@@ -147,8 +148,10 @@ public class TvTrackerRunner {
 					}
 				}
 				while(!goodInput);
-				currentUser.updateShowInList(currentUser.getList().get(menuOption-1).getShowId(), numberOfEpisodesEntered);
-				currentUser.getList().get(menuOption-1).setEpisodesWatched(numberOfEpisodesEntered);
+				success = currentUser.updateShowInList(currentUser.getList().get(menuOption-1).getShowId(), numberOfEpisodesEntered);
+				if (success) {
+					currentUser.getList().get(menuOption - 1).setEpisodesWatched(numberOfEpisodesEntered);
+				}
 				break;
 			}
 			case 3:{
